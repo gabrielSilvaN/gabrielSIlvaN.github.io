@@ -1,24 +1,25 @@
 window.onload = () => {
-  if (typeof Gyroscope === "function") {
-    const gyroscope = new Gyroscope({ frequency: 60 });
-    const xAxis = document.getElementById("x-axis");
-    const yAxis = document.getElementById("y-axis");
-    const zAxis = document.getElementById("z-axis");
+  if (!("BarcodeDetector" in window)) {
+    console.log("Barcode Detector is not supported by this browser.");
+  } else {
+    console.log("Barcode Detector supported!");
 
-    gyroscope.addEventListener("reading", (e) => {
-      xAxis.innerHTML = "Angular velocity along the X-axis " + gyroscope.x;
-      yAxis.innerHTML = "Angular velocity along the Y-axis " + gyroscope.y;
-      zAxis.innerHTML = "Angular velocity along the Z-axis " + gyroscope.z;
+    // create new detector
+    var barcodeDetector = new BarcodeDetector({
+      formats: ["code_39", "codabar", "ean_13"],
     });
-    gyroscope.start();
-  }
 
-  if ("ProximitySensor" in window) {
-    document.getElementById("sensor").innerHTML = "Habemus sensor";
-  }
-
-  if (window.AmbientLightSensor) {
-    document.getElementById("sensor-light").innerHTML =
-      "Habemus sensor of light";
+    barcodeDetector
+      .detect(imageEl)
+      .then((barcodes) => {
+        barcodes.forEach(
+          (barcode) =>
+            (document.getElementById("barcode-data").innerHTML =
+              barcode.rawData)
+        );
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 };
