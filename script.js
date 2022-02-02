@@ -1,6 +1,6 @@
 window.onload = () => {
   function gotMedia(mediaStream) {
-    const mediaStreamTrack = mediaStream.getVideoTracks()[1];
+    const mediaStreamTrack = mediaStream.getVideoTracks()[0];
     const imageCapture = new ImageCapture(mediaStreamTrack);
     return imageCapture;
   }
