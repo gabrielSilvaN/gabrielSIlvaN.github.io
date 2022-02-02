@@ -1,6 +1,6 @@
 function readBarCode(blob) {
   if (!("BarcodeDetector" in window)) {
-    console.log("Barcode Detector is not supported by this browser.");
+    alert("Barcode Detector is not supported by this browser.");
   } else {
     console.log("Barcode Detector supported!");
 
@@ -25,7 +25,9 @@ function readBarCode(blob) {
         barcodes.forEach((barcode) => {
           console.log(barcode.rawData);
 
-          document.getElementById("barcode-data").innerHTML = barcode.rawData;
+          // document.getElementById("barcode-data").innerHTML = barcode.rawData;
+          document.getElementById("barcode-data").innerHTML =
+            JSON.stringify(barcode);
         });
       })
       .catch((err) => {
@@ -40,7 +42,42 @@ function gotMedia(mediaStream) {
   return imageCapture;
 }
 
-function captureVideo() {
+function handleCapture(mediaStream) {
+  document.getElementById("capture").addEventListener("click", () => {
+    const imageCapture = gotMedia(mediaStream);
+    const image = document.getElementById("imageEl");
+
+    imageCapture
+      .takePhoto()
+      .then((blob) => {
+        image.src = URL.createObjectURL(blob);
+        // image.onload = () => {
+        //   URL.revokeObjectURL(this.src);
+        // };
+
+        readBarCode(image);
+      })
+      .catch((error) => console.error("takePhoto() error:", error));
+  });
+}
+
+function getVideo(videoElement) {
+  navigator.mediaDevices
+    .getUserMedia({
+      audio: false,
+      video: {
+        // facingMode: { exact: "environment" },
+        facingMode: "user",
+      },
+    })
+    .then(function (mediaStream) {
+      videoElement.srcObject = mediaStream;
+
+      handleCapture(mediaStream);
+    });
+}
+
+function main() {
   var video = document.getElementById("video");
   video.setAttribute("playsinline", "");
   video.setAttribute("autoplay", "");
@@ -48,62 +85,9 @@ function captureVideo() {
   video.style.width = "200px";
   video.style.height = "200px";
 
-  /* Setting up the constraint */
-  var constraints = {
-    audio: false,
-    video: {
-      facingMode: { exact: "environment" },
-      // facingMode: "user",
-    },
-  };
-
-  /* Stream it to video element */
-  navigator.mediaDevices
-    .getUserMedia(constraints)
-    .then(function success(stream) {
-      video.srcObject = stream;
-
-      document.getElementById("capture").addEventListener("click", () => {
-        const imageCapture = gotMedia(stream);
-        const image = document.getElementById("imageEl");
-
-        imageCapture
-          .takePhoto()
-          .then((blob) => {
-            image.src = URL.createObjectURL(blob);
-            image.onload = () => {
-              URL.revokeObjectURL(this.src);
-            };
-
-            readBarCode(image);
-          })
-          .catch((error) => console.error("takePhoto() error:", error));
-      });
-    });
-}
-
-function captureImage() {
-  navigator.mediaDevices
-    .getUserMedia({ video: true })
-    .then((mediaStream) => {
-      const imageCapture = gotMedia(mediaStream);
-      const image = document.getElementById("imageEl");
-
-      imageCapture
-        .takePhoto()
-        .then((blob) => {
-          image.src = URL.createObjectURL(blob);
-          image.onload = () => {
-            URL.revokeObjectURL(this.src);
-          };
-
-          readBarCode(image);
-        })
-        .catch((error) => console.error("takePhoto() error:", error));
-    })
-    .catch((error) => console.error("getUserMedia() error:", error));
+  getVideo(video);
 }
 
 window.onload = () => {
-  captureVideo();
+  main();
 };
