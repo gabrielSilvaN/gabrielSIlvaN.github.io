@@ -38,6 +38,7 @@ window.onload = () => {
     navigator.mediaDevices
       .getUserMedia({ video: true })
       .then((mediaStream) => {
+        console.log(mediaStream)
         const imageCapture = gotMedia(mediaStream);
         const image = document.getElementById("imageEl");
 
