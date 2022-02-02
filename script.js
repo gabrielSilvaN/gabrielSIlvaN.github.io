@@ -59,7 +59,7 @@ function handleCapture(mediaStream) {
           URL.revokeObjectURL(this.src);
         };
 
-        // readBarCode(image);
+        readBarCode(image);
       })
       .catch((error) => console.error("takePhoto() error:", error));
   });
