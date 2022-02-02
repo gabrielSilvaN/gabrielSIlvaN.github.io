@@ -66,8 +66,8 @@ function getVideo(videoElement) {
     .getUserMedia({
       audio: false,
       video: {
-        // facingMode: { exact: "environment" },
-        facingMode: "user",
+        facingMode: { exact: "environment" },
+        // facingMode: "user",
       },
     })
     .then(function (mediaStream) {
