@@ -13,7 +13,7 @@ window.onload = () => {
 
       // create new detector
       var barcodeDetector = new BarcodeDetector({
-        formats: ["code_39", "codabar", "ean_13"],
+        formats: ["code_39", "codabar", "ean_13", "qr_code", "data_matrix", "aztec"],
       });
 
       barcodeDetector
