@@ -10,7 +10,7 @@ window.onload = () => {
     });
 
     barcodeDetector
-      .detect(imageEl)
+      .detect(document.getElementById("imageEl"))
       .then((barcodes) => {
         barcodes.forEach(
           (barcode) =>
