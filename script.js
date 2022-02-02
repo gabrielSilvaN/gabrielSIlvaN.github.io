@@ -1,6 +1,6 @@
 window.onload = () => {
   function gotMedia(mediaStream) {
-    const mediaStreamTrack = mediaStream.getVideoTracks()[0];
+    const mediaStreamTrack = mediaStream.getVideoTracks()[1];
     const imageCapture = new ImageCapture(mediaStreamTrack);
     return imageCapture;
   }
@@ -44,12 +44,12 @@ window.onload = () => {
         imageCapture
           .takePhoto()
           .then((blob) => {
-            readBarCode(blob);
-
-            image.src =URL.createObjectURL(blob);
+            image.src = URL.createObjectURL(blob);
             image.onload = () => {
               URL.revokeObjectURL(this.src);
             };
+
+            readBarCode(image);
           })
           .catch((error) => console.error("takePhoto() error:", error));
       })
