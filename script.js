@@ -12,6 +12,9 @@ window.onload = () => {
     barcodeDetector
       .detect(document.getElementById("imageEl"))
       .then((barcodes) => {
+        console.log("barcodes foundeds");
+        console.log(barcodes);
+
         barcodes.forEach((barcode) => {
           console.log(barcode.rawData);
 
