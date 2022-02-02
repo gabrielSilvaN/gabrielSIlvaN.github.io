@@ -4,35 +4,38 @@ function readBarCode(blob) {
   } else {
     console.log("Barcode Detector supported!");
 
-    // create new detector
-    var barcodeDetector = new BarcodeDetector({
-      formats: [
-        "code_39",
-        "codabar",
-        "ean_13",
-        "qr_code",
-        "data_matrix",
-        "aztec",
-      ],
-    });
 
-    barcodeDetector
-      .detect(blob)
-      .then((barcodes) => {
-        console.log("barcodes foundeds");
-        console.log(barcodes);
+    console.log(window.BarcodeDetector)
 
-        barcodes.forEach((barcode) => {
-          console.log(barcode.rawData);
+    // // create new detector
+    // var barcodeDetector = new window.BarcodeDetector({
+    //   formats: [
+    //     "code_39",
+    //     "codabar",
+    //     "ean_13",
+    //     "qr_code",
+    //     "data_matrix",
+    //     "aztec",
+    //   ],
+    // });
 
-          // document.getElementById("barcode-data").innerHTML = barcode.rawData;
-          document.getElementById("barcode-data").innerHTML =
-            JSON.stringify(barcode);
-        });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    // barcodeDetector
+    //   .detect(blob)
+    //   .then((barcodes) => {
+    //     console.log("barcodes foundeds");
+    //     console.log(barcodes);
+
+    //     barcodes.forEach((barcode) => {
+    //       console.log(barcode.rawData);
+
+    //       // document.getElementById("barcode-data").innerHTML = barcode.rawData;
+    //       document.getElementById("barcode-data").innerHTML =
+    //         JSON.stringify(barcode);
+    //     });
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
   }
 }
 
@@ -51,11 +54,12 @@ function handleCapture(mediaStream) {
       .takePhoto()
       .then((blob) => {
         image.src = URL.createObjectURL(blob);
-        // image.onload = () => {
-        //   URL.revokeObjectURL(this.src);
-        // };
 
-        readBarCode(image);
+        image.onload = () => {
+          URL.revokeObjectURL(this.src);
+        };
+
+        // readBarCode(image);
       })
       .catch((error) => console.error("takePhoto() error:", error));
   });
@@ -66,8 +70,8 @@ function getVideo(videoElement) {
     .getUserMedia({
       audio: false,
       video: {
-        facingMode: { exact: "environment" },
-        // facingMode: "user",
+        // facingMode: { exact: "environment" },
+        facingMode: "user",
       },
     })
     .then(function (mediaStream) {
