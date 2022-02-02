@@ -36,7 +36,6 @@ function readBarCode(blob) {
 
 function gotMedia(mediaStream) {
   const mediaStreamTrack = mediaStream.getVideoTracks()[0];
-  console.log(mediaStream.getVideoTracks());
   const imageCapture = new ImageCapture(mediaStreamTrack);
   return imageCapture;
 }
@@ -62,7 +61,6 @@ function captureVideo() {
   navigator.mediaDevices
     .getUserMedia(constraints)
     .then(function success(stream) {
-      console.log(stream);
       video.srcObject = stream;
 
       document.getElementById("capture").addEventListener("click", () => {
@@ -88,7 +86,6 @@ function captureImage() {
   navigator.mediaDevices
     .getUserMedia({ video: true })
     .then((mediaStream) => {
-      console.log(mediaStream);
       const imageCapture = gotMedia(mediaStream);
       const image = document.getElementById("imageEl");
 
