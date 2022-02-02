@@ -14,10 +14,11 @@ window.onload = () => {
   }
 
   if ("ProximitySensor" in window) {
-    console.log("ProximitySensor");
+    document.getElementById("sensor").innerHTML = "Habemus sensor";
   }
 
   if (window.AmbientLightSensor) {
-    console.log("AmbientLightSensor");
+    document.getElementById("sensor-light").innerHTML =
+      "Habemus sensor of light";
   }
 };
