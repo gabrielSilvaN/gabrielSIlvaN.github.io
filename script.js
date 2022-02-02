@@ -12,11 +12,11 @@ window.onload = () => {
     barcodeDetector
       .detect(document.getElementById("imageEl"))
       .then((barcodes) => {
-        barcodes.forEach(
-          (barcode) =>
-            (document.getElementById("barcode-data").innerHTML =
-              barcode.rawData)
-        );
+        barcodes.forEach((barcode) => {
+          console.log(barcode.rawData);
+
+          document.getElementById("barcode-data").innerHTML = barcode.rawData;
+        });
       })
       .catch((err) => {
         console.log(err);
