@@ -46,8 +46,7 @@ window.onload = () => {
           .then((blob) => {
             readBarCode(blob);
 
-            const src = URL.createObjectURL(blob);
-            image.src = src;
+            image.src =URL.createObjectURL(blob);
             image.onload = () => {
               URL.revokeObjectURL(this.src);
             };
