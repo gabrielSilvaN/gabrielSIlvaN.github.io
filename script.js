@@ -5,7 +5,7 @@ window.onload = () => {
     return imageCapture;
   }
 
-  function readBarCode(dataUrl) {
+  function readBarCode(blob) {
     if (!("BarcodeDetector" in window)) {
       console.log("Barcode Detector is not supported by this browser.");
     } else {
@@ -17,7 +17,7 @@ window.onload = () => {
       });
 
       barcodeDetector
-        .detect(dataUrl)
+        .detect(blob)
         .then((barcodes) => {
           console.log("barcodes foundeds");
           console.log(barcodes);
@@ -44,12 +44,7 @@ window.onload = () => {
         imageCapture
           .takePhoto()
           .then((blob) => {
-            const fr = new FileReader();
-            fr.readAsDataURL(blob);
-
-            fr.onloadend = () => {
-              readBarCode(fr.result);
-            };
+            readBarCode(blob);
 
             const src = URL.createObjectURL(blob);
             image.src = src;
